@@ -1,84 +1,93 @@
 var w = 40;
 var mouth = 0;
 var pacman;
+var cols, rows;
+var cells = [];
+var cellstemp = [];
+var grid = true;
+var points = 0;
+
 function setup() {
-    createCanvas(400, 400);
-    pacman = new Player();
+  createCanvas(400, 400);
+  cols = floor(width / w);
+  rows = floor(height / w);
+  pacman = new Player();
+  for (var i = 0; i < cols; i++) {
+    for (var j = 0; j < rows; j++) {
+      var cell = new Cell(i, j);
+      cellstemp.push(cell);
+    }
+    cells.push(cellstemp);
+    cellstemp = [];
+  }
+  generate();
 }
 
 function draw() {
-    background(51);
-    if(pacman.mouth > w/2){
-        pacman.mouth = 1;
+  background(51);
+  stroke(255);
+  for (var i = 0; i < cols; i++) {
+    for (var j = 0; j < rows; j++) {
+      cells[i][j].show();
     }
-    stroke(255);
-    for(var i=0;i <= width/w; i++) {
-        line(i*w,0,i*w,height);
-        line(0,i*w,width,i*w);
-    }
-    pacman.show();
-    pacman.move();
-    pacman.mouth += w/50;
+  }
+  pacman.show();
+  pacman.move();
+  pacman.points();
 }
 
-function Player() {
-    this.x = (width/2)+(w/2);
-    this.y = (height/2)+(w/2);
-    this.mouth = 4;
-    this.mvs = 4;
-    this.dir = -1;
-    this.show = function() {
-        noStroke();
-        fill(255,238,0);
-        ellipse(this.x,this.y,w,w);
-        fill(51);
-        if (this.dir == 3){
-            triangle(this.x,this.y,this.x-w/2,this.y+(w/4)-this.mouth,this.x-w/2,this.y-(w/4)+this.mouth);
-        } else if (this.dir == 2) {
-            triangle(this.x,this.y,this.x+(w/4)-this.mouth,this.y+(w/2),this.x-(w/4)+this.mouth,this.y+(w/2));
-        } else if (this.dir == 0) {
-            triangle(this.x,this.y,this.x+(w/4)-this.mouth,this.y-(w/2),this.x-(w/4)+this.mouth,this.y-(w/2));
-        } else if (this.dir == 1) {
-            triangle(this.x,this.y,this.x+(w/2),this.y+(w/4)-this.mouth,this.x+(w/2),this.y-(w/4)+this.mouth);
-        }
-        
+function Cell(i, j) {
+  this.x = i * w;
+  this.y = j * w;
+  this.wall = false;
+  this.c1 = 0;
+  this.c2 = 0;
+  this.c3 = 0;
+  this.c4 = 0;
+  this.pellet = false;
+  this.show = function() {
+    noFill();
+    stroke(255);
+    if (this.wall) {
+      fill(0, 0, 255);
+      noStroke();
+      rect(this.x, this.y, w, w, 0, 0, 0, 0);
+    } else if (this.pellet) {
+      fill(255);
+      ellipse(this.x + (w / 2), this.y + (w / 2), w / 4, w / 4)
+    } else if (grid) {
+      rect(this.x, this.y, w, w);
     }
-    this.move = function(){
-        if(this.dir == 0){
-            this.x += 0;
-            this.y += -this.mvs;
-        }
-        if(this.dir == 1){
-            this.x += this.mvs;
-            this.y += 0;
-        }
-        if(this.dir == 2){
-            this.x += 0;
-            this.y += this.mvs;
-        }
-        if(this.dir == 3){
-            this.x += -this.mvs;
-            this.y += 0;
-        }
-    }
+  }
 }
 
 function keyPressed() {
-    if(keyCode === UP_ARROW){
-        if(pacman.x-(w/2)%w==0 && pacman.y-(w/2)%w==0) {
-            pacman.dir = 0;
-        }
-    } else if(keyCode === RIGHT_ARROW){
-        if(pacman.x-(w/2)%w==0 && pacman.y-(w/2)%w==0) {
-            pacman.dir = 1;
-        }
-    } else if(keyCode === DOWN_ARROW){
-        if(pacman.x-(w/2)%w==0 && pacman.y-(w/2)%w==0) {
-            pacman.dir = 2;
-        }
-    } else if(keyCode === LEFT_ARROW){
-        if(pacman.x-(w/2)%w==0 && pacman.y-(w/2)%w==0) {
-            pacman.dir = 3;
-        }
-    }
+  if (keyCode === UP_ARROW) {
+    pacman.to = 0;
+    pacman.buffy = -2;
+    pacman.buffx = 0;
+    pacman.bully = -1;
+    pacman.bullx = 0;
+  }
+  if (keyCode === RIGHT_ARROW) {
+    pacman.to = 1;
+    pacman.buffx = 1;
+    pacman.buffy = 0;
+    pacman.bully = 0;
+    pacman.bullx = 0;
+  }
+  if (keyCode === DOWN_ARROW) {
+    pacman.to = 2;
+    pacman.buffy = 1;
+    pacman.buffx = 0;
+    pacman.bully = 0;
+    pacman.bullx = 0;
+  }
+  if (keyCode === LEFT_ARROW) {
+    pacman.to = 3;
+    pacman.buffx = -2;
+    pacman.buffy = 0;
+    pacman.bully = 0;
+    pacman.bullx = -1;
+  }
 }
