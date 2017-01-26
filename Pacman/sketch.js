@@ -64,30 +64,14 @@ function Cell(i, j) {
 function keyPressed() {
   if (keyCode === UP_ARROW) {
     pacman.to = 0;
-    pacman.buffy = -2;
-    pacman.buffx = 0;
-    pacman.bully = -1;
-    pacman.bullx = 0;
   }
   if (keyCode === RIGHT_ARROW) {
     pacman.to = 1;
-    pacman.buffx = 1;
-    pacman.buffy = 0;
-    pacman.bully = 0;
-    pacman.bullx = 0;
   }
   if (keyCode === DOWN_ARROW) {
     pacman.to = 2;
-    pacman.buffy = 1;
-    pacman.buffx = 0;
-    pacman.bully = 0;
-    pacman.bullx = 0;
   }
   if (keyCode === LEFT_ARROW) {
     pacman.to = 3;
-    pacman.buffx = -2;
-    pacman.buffy = 0;
-    pacman.bully = 0;
-    pacman.bullx = -1;
   }
 }
