@@ -9,7 +9,7 @@ var points = 0;
 var bg = 51;
 
 function setup() {
-  createCanvas(400, 400);
+  createCanvas(w * 28, w * 31);
   cols = floor(width / w);
   rows = floor(height / w);
   pacman = new Player();
@@ -23,6 +23,7 @@ function setup() {
     cellstemp = [];
   }
   generate();
+  frameRate(1);
 }
 
 function draw() {
@@ -34,28 +35,67 @@ function draw() {
     }
   }
   blinky.show();
-  blinky.move();
-  pacman.show();
-  pacman.move();
-  pacman.points();
+  //blinky.move();
+  //pacman.show();
+  //pacman.move();
+  //pacman.points();
 }
 
 function Cell(i, j) {
   this.x = i * w;
   this.y = j * w;
+  this.loc = [i, j];
   this.wall = false;
   this.c1 = 0;
   this.c2 = 0;
   this.c3 = 0;
   this.c4 = 0;
   this.pellet = false;
+  this.check = function() {
+    if (this.loc[1] < rows - 1) {
+      if (!cells[this.loc[0]][this.loc[1] + 1].wall) {
+        if (this.loc[0] > 0) {
+          if (!cells[this.loc[0] - 1][this.loc[1]].wall) {
+            this.c4 = 50;
+          }
+        } else {
+          this.c4 = 50;
+        }
+        if (this.loc[0] < cols - 1) {
+          if (!cells[this.loc[0] + 1][this.loc[1]].wall) {
+            this.c3 = 50;
+          }
+        } else {
+          this.c3 = 50;
+        }
+      }
+    }
+    if (this.loc[1] > 0) {
+      if (!cells[this.loc[0]][this.loc[1] - 1].wall) {
+        if (this.loc[0] > 0) {
+          if (!cells[this.loc[0] - 1][this.loc[1]].wall) {
+            this.c1 = 50;
+          }
+        } else {
+          this.c1 = 50;
+        }
+        if (this.loc[0] < cols - 1) {
+          if (!cells[this.loc[0] + 1][this.loc[1]].wall) {
+            this.c2 = 50;
+          }
+        } else {
+          this.c2 = 50;
+        }
+      }
+    }
+  }
   this.show = function() {
     noFill();
     stroke(255);
     if (this.wall) {
       fill(0, 0, 255);
       noStroke();
-      rect(this.x, this.y, w, w, 0, 0, 0, 0);
+      rect(this.x, this.y, w, w, this.c1, this.c2, this.c3, this.c4);
     } else if (this.pellet) {
       fill(255);
       ellipse(this.x + (w / 2), this.y + (w / 2), w / 4, w / 4)
