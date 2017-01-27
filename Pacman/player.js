@@ -1,6 +1,6 @@
 function Player() {
-  this.x = (cols / 2 * w) + (w / 2);
-  this.y = (rows / 2 * w) + (w / 2);
+  this.x = (width - w) + (w / 2);
+  this.y = (height - w) + (w / 2);
   this.cellx0 = 0;
   this.celly0 = 0;
   this.cellx1 = 0;
@@ -20,7 +20,7 @@ function Player() {
     noStroke();
     fill(255, 238, 0);
     ellipse(this.x, this.y, w, w);
-    fill(51);
+    fill(bg);
     if (this.dir == 3) {
       triangle(this.x, this.y, this.x - w / 2, this.y + (w / 4) - this.mouth, this.x - w / 2,
         this.y - (w / 4) + this.mouth);

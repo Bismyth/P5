@@ -6,12 +6,14 @@ var cells = [];
 var cellstemp = [];
 var grid = true;
 var points = 0;
+var bg = 51;
 
 function setup() {
   createCanvas(400, 400);
   cols = floor(width / w);
   rows = floor(height / w);
   pacman = new Player();
+  blinky = new ghost();
   for (var i = 0; i < cols; i++) {
     for (var j = 0; j < rows; j++) {
       var cell = new Cell(i, j);
@@ -24,13 +26,15 @@ function setup() {
 }
 
 function draw() {
-  background(51);
+  background(bg);
   stroke(255);
   for (var i = 0; i < cols; i++) {
     for (var j = 0; j < rows; j++) {
       cells[i][j].show();
     }
   }
+  blinky.show();
+  blinky.move();
   pacman.show();
   pacman.move();
   pacman.points();
