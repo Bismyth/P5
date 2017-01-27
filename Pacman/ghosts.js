@@ -1,10 +1,12 @@
 function ghost() {
-  this.x = 0;
+  this.x = w;
   this.y = w;
   this.feet = ((w * 3 / 4) / (5 / 3)) / 2;
   this.dir = -1;
   this.tt = 0;
-  this.mvs = 5;
+  this.mvs = 2.5;
+  this.path = [];
+  this.back = false;
   this.show = function() {
     noStroke();
     fill(255, 0, 0);
@@ -74,37 +76,48 @@ function ghost() {
       this.tt = [(pacman.x - (w / 2)) / w, (pacman.y - (w / 2)) / w];
     }
     if (pacman.dir == 0) {
-
+      this.tt = [floor((pacman.x + (pacman.mvs / 2) - (w / 2)) / w),
+        floor((pacman.y + ((pacman.mvs / 2) * -2) - (w / 2)) / w + 1)
+      ];
     }
-
+    if (pacman.dir == 1) {
+      this.tt = [floor((pacman.x + (pacman.mvs / 2) - (w / 2)) / w),
+        floor((pacman.y + (pacman.mvs / 2) - (w / 2)) / w)
+      ];
+    }
+    if (pacman.dir == 2) {
+      this.tt = [floor((pacman.x + (this.mvs / 2) - (w / 2)) / w),
+        floor((pacman.y + (pacman.mvs / 2) - (w / 2)) / w)
+      ];
+    }
+    if (pacman.dir == 3) {
+      this.tt = [floor((pacman.x + ((pacman.mvs / 2) * -2) - (w / 2)) / w + 1),
+        floor((pacman.y + (pacman.mvs / 2) - (w / 2)) / w)
+      ];
+    }
     this.cell = [floor(this.x / w), floor(this.y / w)];
-    if (this.tt[1] < this.cell[1] && !cells[this.cell[0]][this.cell[1] - 1].wall) {
-      this.dir = 0;
-    }
-    if (this.tt[0] > this.cell[0] && !cells[this.cell[0] + 1][this.cell[1]].wall) {
-      this.dir = 1;
-    }
-    if (this.tt[1] > this.cell[1] && !cells[this.cell[0]][this.cell[1] + 1].wall) {
-      this.dir = 2;
-    }
-    if (this.tt[0] < this.cell[0] && !cells[this.cell[0] - 1][this.cell[1]].wall) {
-      this.dir = 3;
-    }
-    if (this.dir == 0) {
-      this.x += 0;
-      this.y -= this.mvs;
-    }
-    if (this.dir == 1) {
-      this.x += this.mvs;
-      this.y += 0;
-    }
-    if (this.dir == 2) {
-      this.x += 0;
-      this.y += this.mvs;
-    }
-    if (this.dir == 3) {
-      this.x -= this.mvs;
-      this.y += 0;
+    if (this.tt[0] == this.cell[0] && this.tt[1] == this.cell[1]) {
+
+    } else {
+      if (this.cell[0] < this.tt[0] && !cells[this.cell[0] + 1][this.cell[1]].wall) {
+        if (this.cell[1] < this.tt[1]) {
+          this.back = true;
+          for (var i = this.cell[0]; i < cols; i++) {
+            if (!cells[i][this.cell[1] + 1].wall) {
+              this.back = false;
+            }
+          }
+        }
+        if (this.back) {
+          this.x -= w;
+        } else {
+          this.x += w;
+        }
+      }
+      if (this.cell[1] < this.tt[1] && !cells[this.cell[0]][this.cell[1] + 1].wall) {
+        this.x = this.cell[0] * w;
+        this.y += w;
+      }
     }
   }
 }
