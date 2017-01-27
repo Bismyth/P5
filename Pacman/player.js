@@ -1,6 +1,6 @@
 function Player() {
-  this.x = (width - w) + (w / 2);
-  this.y = (height - w) + (w / 2);
+  this.x = (width - w) - (w / 2);
+  this.y = (height - w) - (w / 2);
   this.cellx0 = 0;
   this.celly0 = 0;
   this.cellx1 = 0;
@@ -10,9 +10,10 @@ function Player() {
   this.cellx3 = 0;
   this.celly3 = 0;
   this.mouth = 4;
-  this.mvs = 4;
+  this.mvs = 5;
   this.dir = -1;
   this.to = -1;
+  this.warp = false;
   this.show = function() {
     if (pacman.mouth > w / 2) {
       pacman.mouth = 1;
@@ -45,10 +46,15 @@ function Player() {
     this.celly2 = floor((this.y + (this.mvs / 2) - (w / 2)) / w);
     this.cellx3 = floor((this.x + ((this.mvs / 2) * -2) - (w / 2)) / w + 1);
     this.celly3 = floor((this.y + (this.mvs / 2) - (w / 2)) / w);
+    if (this.x < w / 2 + this.mvs + 1) {
+      this.warp = true;
+    }
+    if (this.x > width - w / 2 - this.mvs + 1) {
+      this.warp = true;
+    }
     if (this.x < -w) {
       this.x = width + w;
-    }
-    if (this.x > width + w) {
+    } else if (this.x > width + w) {
       this.x = -w;
     }
     if ((this.x - (w / 2)) % w == 0 && (this.y - (w / 2)) % w == 0 && this.to == 0) {
@@ -97,10 +103,16 @@ function Player() {
         this.y += -this.mvs;
       }
     }
-    if (this.dir == 1) {
+    if (this.dir == 1 && !this.warp) {
       if (!cells[(this.cellx1 + 1)][this.celly1].wall) {
         this.x += this.mvs;
         this.y += 0;
+      }
+    } else if (this.warp && this.dir == 1) {
+      this.x += this.mvs;
+      this.y += 0;
+      if (this.cellx1 == 0) {
+        this.warp = false;
       }
     }
     if (this.dir == 2) {
@@ -109,36 +121,44 @@ function Player() {
         this.y += this.mvs;
       }
     }
-    if (this.dir == 3) {
+    if (this.dir == 3 && !this.warp) {
       if (!cells[(this.cellx3 - 1)][this.celly3].wall) {
         this.x += -this.mvs;
         this.y += 0;
       }
+    } else if (this.warp && this.dir == 3) {
+      this.x -= this.mvs;
+      this.y += 0;
+      if (this.cellx3 == width / w - 1) {
+        this.warp = false;
+      }
     }
   }
   this.points = function() {
-    if (this.dir == 0) {
-      if (cells[this.cellx0][this.celly0].pellet) {
-        cells[this.cellx0][this.celly0].pellet = false;
-        points += 1;
+    if (!this.warp) {
+      if (this.dir == 0) {
+        if (cells[this.cellx0][this.celly0].pellet) {
+          cells[this.cellx0][this.celly0].pellet = false;
+          points += 1;
+        }
       }
-    }
-    if (this.dir == 1) {
-      if (cells[this.cellx1][this.celly1].pellet) {
-        cells[this.cellx1][this.celly1].pellet = false;
-        points += 1;
+      if (this.dir == 1) {
+        if (cells[this.cellx1][this.celly1].pellet) {
+          cells[this.cellx1][this.celly1].pellet = false;
+          points += 1;
+        }
       }
-    }
-    if (this.dir == 2) {
-      if (cells[this.cellx2][this.celly2].pellet) {
-        cells[this.cellx2][this.celly2].pellet = false;
-        points += 1;
+      if (this.dir == 2) {
+        if (cells[this.cellx2][this.celly2].pellet) {
+          cells[this.cellx2][this.celly2].pellet = false;
+          points += 1;
+        }
       }
-    }
-    if (this.dir == 3) {
-      if (cells[this.cellx3][this.celly3].pellet) {
-        cells[this.cellx3][this.celly3].pellet = false;
-        points += 1;
+      if (this.dir == 3) {
+        if (cells[this.cellx3][this.celly3].pellet) {
+          cells[this.cellx3][this.celly3].pellet = false;
+          points += 1;
+        }
       }
     }
   }
