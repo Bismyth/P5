@@ -23,7 +23,7 @@ function setup() {
     cellstemp = [];
   }
   generate();
-  frameRate(1);
+  //frameRate(1);
 }
 
 function draw() {
@@ -35,8 +35,8 @@ function draw() {
     }
   }
   blinky.show();
-  //blinky.move();
-  //pacman.show();
+  blinky.move();
+  pacman.show();
   //pacman.move();
   //pacman.points();
 }
@@ -93,8 +93,13 @@ function Cell(i, j) {
     noFill();
     stroke(255);
     if (this.wall) {
-      fill(0, 0, 255);
-      noStroke();
+      fill(32, 48, 210);
+      if (grid) {
+        stroke(255);
+      } else {
+        noStroke();
+      }
+
       rect(this.x, this.y, w, w, this.c1, this.c2, this.c3, this.c4);
     } else if (this.pellet) {
       fill(255);
