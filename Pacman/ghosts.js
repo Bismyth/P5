@@ -7,6 +7,7 @@ function ghost() {
   this.mvs = 2.5;
   this.path = [];
   this.back = false;
+  this.check = 0;
   this.show = function() {
     noStroke();
     fill(255, 0, 0);
@@ -100,13 +101,15 @@ function ghost() {
 
     } else {
       if (this.cell[0] < this.tt[0] && !cells[this.cell[0] + 1][this.cell[1]].wall) {
-        if (this.cell[1] < this.tt[1]) {
+        if (this.cell[1] < this.tt[1] && this.cell[1] != 14) {
           this.back = true;
-          for (var i = this.cell[0]; i < cols; i++) {
-            if (!cells[i][this.cell[1] + 1].wall) {
+          while (!cells[this.cell[0] + this.check][this.cell[1]].wall) {
+            if (!cells[this.cell[0] + this.check][this.cell[1] + 1].wall) {
               this.back = false;
             }
+            this.check += 1;
           }
+          this.check = 0;
         }
         if (this.back) {
           this.x -= w;
