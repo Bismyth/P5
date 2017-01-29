@@ -7,7 +7,7 @@ function ghost() {
   this.mvs = 2.5;
   this.path = [];
   this.back = false;
-  this.check = 0;
+  this.check = cols - 1;
   this.show = function() {
     noStroke();
     fill(255, 0, 0);
@@ -97,28 +97,184 @@ function ghost() {
       ];
     }
     this.cell = [floor(this.x / w), floor(this.y / w)];
-    if (this.tt[0] == this.cell[0] && this.tt[1] == this.cell[1]) {
-
-    } else {
-      if (this.cell[0] < this.tt[0] && !cells[this.cell[0] + 1][this.cell[1]].wall) {
+    if (this.cell[0] < this.tt[0]) {
+      if (Math.abs(this.tt[0] - this.cell[0]) > Math.abs(this.tt[1] - this.cell[1])) {
         if (this.cell[1] < this.tt[1] && this.cell[1] != 14) {
           this.back = true;
-          while (!cells[this.cell[0] + this.check][this.cell[1]].wall) {
-            if (!cells[this.cell[0] + this.check][this.cell[1] + 1].wall) {
+          for (var i = this.cell[0]; i < cols; i++) {
+            if (cells[i][this.cell[1]].wall) {
+              if (this.check > i) {
+                this.check = i;
+              }
+            }
+          }
+          for (var i = this.cell[0]; i < this.check; i++) {
+            if (!cells[i][this.cell[1] + 1].wall) {
               this.back = false;
             }
-            this.check += 1;
           }
-          this.check = 0;
+          this.check = cols - 1;
+        } else if (this.cell[1] > this.tt[1] && this.cell[1] != 14) {
+          this.back = true;
+          for (var i = this.cell[0]; i < cols; i++) {
+            if (cells[i][this.cell[1]].wall) {
+              if (this.check > i) {
+                this.check = i;
+              }
+            }
+          }
+          for (var i = this.cell[0]; i < this.check; i++) {
+            if (!cells[i][this.cell[1] - 1].wall) {
+              this.back = false;
+            }
+          }
+          this.check = cols - 1;
+        } else if (this.cell[1] == this.tt[1] && cells[this.cell[0] + 1][this.cell[1]].wall) {
+          this.y += w;
         }
         if (this.back) {
           this.x -= w;
-        } else {
+        } else if (!cells[this.cell[0] + 1][this.cell[1]].wall) {
           this.x += w;
         }
+      } else if (cells[this.cell[0]][this.cell[1] + 1].wall && !cells[this.cell[0] + 1][this.cell[
+          1]].wall) {
+        this.x += w;
+      } else if (Math.abs(this.tt[0] - this.cell[0]) == Math.abs(this.tt[1] - this.cell[1]) &&
+        !cells[this.cell[0] + 1][this.cell[1]].wall) {
+        this.x += w;
       }
-      if (this.cell[1] < this.tt[1] && !cells[this.cell[0]][this.cell[1] + 1].wall) {
-        this.x = this.cell[0] * w;
+    }
+    if (this.cell[1] < this.tt[1]) {
+      if (Math.abs(this.tt[0] - this.cell[0]) < Math.abs(this.tt[1] - this.cell[1])) {
+        this.back = true;
+        for (var i = this.cell[1]; i < rows; i++) {
+          if (cells[this.cell[0]][i].wall) {
+            if (this.check > i) {
+              this.check = i;
+            }
+          }
+        }
+        for (var i = this.cell[1]; i < this.check; i++) {
+          if (!cells[this.cell[0] + 1][i].wall) {
+            this.back = false;
+          }
+        }
+        this.check = cols - 1;
+        for (var i = this.cell[1]; i < rows; i++) {
+          if (cells[this.cell[0]][i].wall) {
+            if (this.check > i) {
+              this.check = i;
+            }
+          }
+        }
+        for (var i = this.cell[1]; i < this.check; i++) {
+          if (!cells[this.cell[0] - 1][i].wall) {
+            this.back = false;
+          }
+        }
+        this.check = cols - 1;
+
+        if (this.back) {
+          this.y -= w;
+        } else if (!cells[this.cell[0]][this.cell[1] + 1].wall) {
+          this.y += w;
+        }
+      } else if (cells[this.cell[0] + 1][this.cell[1]].wall &&
+        !cells[this.cell[0]][this.cell[1] + 1].wall) {
+        this.y += w;
+      }
+    }
+    if (this.cell[0] > this.tt[0]) {
+      if (Math.abs(this.tt[0] - this.cell[0]) > Math.abs(this.tt[1] - this.cell[1])) {
+        if (this.cell[1] < this.tt[1] && this.cell[1] != 14) {
+          this.back = true;
+          for (var i = this.cell[0]; i > 0; i--) {
+            if (cells[i][this.cell[1]].wall) {
+              if (this.check < i) {
+                this.check = i;
+              }
+            }
+          }
+          for (var i = this.cell[0]; i > this.check; i--) {
+            if (!cells[i][this.cell[1] + 1].wall) {
+              this.back = false;
+            }
+          }
+          this.check = cols - 1;
+        } else if (this.cell[1] > this.tt[1] && this.cell[1] != 14) {
+          this.back = true;
+          for (var i = this.cell[0]; i > 0; i--) {
+            if (cells[i][this.cell[1]].wall) {
+              if (this.check < i) {
+                this.check = i;
+              }
+            }
+          }
+          for (var i = this.cell[0]; i > this.check; i--) {
+            if (!cells[i][this.cell[1] - 1].wall) {
+              this.back = false;
+            }
+          }
+          this.check = cols - 1;
+        }
+        if (this.back) {
+          this.x += w;
+        } else if (!cells[this.cell[0] - 1][this.cell[1]].wall) {
+          this.x -= w;
+        }
+      } else if (cells[this.cell[0]][this.cell[1] + 1].wall && !cells[this.cell[0] - 1][this.cell[
+          1]].wall) {
+        this.x -= w;
+      } else if (cells[this.cell[0]][this.cell[1] + 1].wall && !cells[this.cell[0] + 1][this.cell[
+          1]].wall) {
+        this.x += w;
+      } else if (Math.abs(this.tt[0] - this.cell[0]) == Math.abs(this.tt[1] - this.cell[1]) &&
+        !cells[this.cell[0] - 1][this.cell[1]].wall) {
+        this.x -= w;
+      }
+    }
+    if (this.cell[1] > this.tt[1]) {
+      if (Math.abs(this.tt[0] - this.cell[0]) < Math.abs(this.tt[1] - this.cell[1])) {
+        if (this.cell[0] < this.tt[0]) {
+          this.back = true;
+          this.check = 0;
+          for (var i = this.cell[1]; i > 0; i--) {
+            if (cells[this.cell[0]][i].wall) {
+              if (this.check < i) {
+                this.check = i;
+              }
+            }
+          }
+          for (var i = this.cell[1]; i > this.check; i--) {
+            if (!cells[this.cell[0] - 1][i].wall) {
+              this.back = false;
+            }
+          }
+          this.check = cols - 1;
+        } else if (this.cell[0] > this.tt[0]) {
+          this.back = true;
+          for (var i = this.cell[1]; i > 0; i--) {
+            if (cells[this.cell[0]][i].wall) {
+              if (this.check < i) {
+                this.check = i;
+              }
+            }
+          }
+          for (var i = this.cell[1]; i > this.check; i--) {
+            if (!cells[this.cell[0] - 1][i].wall) {
+              this.back = false;
+            }
+          }
+          this.check = cols - 1;
+        }
+        if (this.back) {
+          this.y += w;
+        } else if (!cells[this.cell[0]][this.cell[1] - 1].wall) {
+          this.y -= w;
+        }
+      } else if (cells[this.cell[0] + 1][this.cell[1]].wall &&
+        !cells[this.cell[0]][this.cell[1] + 1].wall) {
         this.y += w;
       }
     }

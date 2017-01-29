@@ -1,6 +1,6 @@
 function Player() {
-  this.x = (width - w) - (w / 2);
-  this.y = (height - w) - (w / 2);
+  this.x = 0 * w + (w / 2);
+  this.y = 14 * w + (w / 2);
   this.cellx0 = 0;
   this.celly0 = 0;
   this.cellx1 = 0;
