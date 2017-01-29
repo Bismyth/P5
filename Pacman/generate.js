@@ -55,6 +55,12 @@ function generate() {
     cells[5][rows - (10 - i)].wall = true;
     cells[cols - 5][rows - (10 - i)].wall = true;
     cells[cols - 6][rows - (10 - i)].wall = true;
+    for (var j = 0; j < 3; j++) {
+      cells[i][j + 10].back = true;
+      cells[i][j + 16].back = true;
+      cells[cols - (i + 1)][j + 10].back = true;
+      cells[cols - (i + 1)][j + 16].back = true;
+    }
     //cells[i + 1][rows].wall = true;
   }
   for (var i = 0; i < 8; i++) {
@@ -117,5 +123,5 @@ function generate() {
   cells[cols - 1][13].c2 = false;
   cells[cols - 1][15].c2 = false;
   cells[cols - 1][13].c3 = false;
-  cells[cols - 1][15].c4 = false;
+  cells[cols - 1][15].c3 = false;
 }
