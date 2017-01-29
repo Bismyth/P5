@@ -23,7 +23,7 @@ function setup() {
     cellstemp = [];
   }
   generate();
-  frameRate(10);
+  //frameRate(10);
 }
 
 function draw() {

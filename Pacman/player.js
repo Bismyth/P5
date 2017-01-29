@@ -88,13 +88,16 @@ function Player() {
       }
     }
     if ((this.x - (w / 2)) % w == 0 && (this.y - (w / 2)) % w == 0 && this.to == 3) {
-      if (!cells[this.cellx3 - 1][this.celly3].wall) {
-        this.x += -this.mvs;
-        this.y += 0;
-        this.to = -1;
-        this.dir = 3;
+      if (!this.warp) {
+        if (!cells[this.cellx3 - 1][this.celly3].wall) {
+          this.to = -1;
+          this.dir = 3;
+        } else {
+          this.to = -1;
+        }
       } else {
         this.to = -1;
+        this.dir = 3;
       }
     }
     if (this.dir == 0) {
