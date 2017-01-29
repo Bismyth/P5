@@ -4,9 +4,9 @@ var pacman;
 var cols, rows;
 var cells = [];
 var cellstemp = [];
-var grid = true;
+var grid = false;
 var points = 0;
-var bg = 51;
+var bg = 115;
 
 function setup() {
   createCanvas(w * 28, w * 31);
@@ -23,7 +23,7 @@ function setup() {
     cellstemp = [];
   }
   generate();
-  //frameRate(1);
+  frameRate(10);
 }
 
 function draw() {
@@ -37,8 +37,8 @@ function draw() {
   blinky.show();
   blinky.move();
   pacman.show();
-  //pacman.move();
-  //pacman.points();
+  pacman.move();
+  pacman.points();
 }
 
 function Cell(i, j) {
@@ -50,7 +50,8 @@ function Cell(i, j) {
   this.c2 = 0;
   this.c3 = 0;
   this.c4 = 0;
-  this.pellet = false;
+  this.pellet = true;
+  this.back = false;
   this.check = function() {
     if (this.loc[1] < rows - 1) {
       if (!cells[this.loc[0]][this.loc[1] + 1].wall) {
@@ -68,6 +69,9 @@ function Cell(i, j) {
         } else {
           this.c3 = 50;
         }
+      }
+      if (this.wall || this.back) {
+        this.pellet = false;
       }
     }
     if (this.loc[1] > 0) {
@@ -99,12 +103,24 @@ function Cell(i, j) {
       } else {
         noStroke();
       }
-
       rect(this.x, this.y, w, w, this.c1, this.c2, this.c3, this.c4);
     } else if (this.pellet) {
-      fill(255);
-      ellipse(this.x + (w / 2), this.y + (w / 2), w / 4, w / 4)
-    } else if (grid) {
+      if (grid) {
+        stroke(255);
+        fill(115);
+        rect(this.x, this.y, w, w);
+        fill(255);
+        ellipse(this.x + (w / 2), this.y + (w / 2), w / 4, w / 4);
+      } else {
+        noStroke();
+        fill(115);
+        rect(this.x, this.y, w, w);
+        fill(255);
+        ellipse(this.x + (w / 2), this.y + (w / 2), w / 4, w / 4);
+      }
+    } else if (this.back) {
+      fill(51);
+      noStroke();
       rect(this.x, this.y, w, w);
     }
   }
