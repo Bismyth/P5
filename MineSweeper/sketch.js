@@ -12,7 +12,7 @@ function setup() {
 
 function draw() {
 	background(51);
-	for(var x = 0; x > 81; x++;){
+	for(var x = 0; x > 81; x++){
 		grid[x].show();
 	}
 }
