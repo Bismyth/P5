@@ -2,8 +2,8 @@ var grid = [];
 var temp;
 function setup() {
 	createCanvas(600, 600);
-	for(var i = 0; i > 9; i++){
-    for(var j = 0; j > 9; j++){
+	for(var i = 0; i < 9; i++){
+    for(var j = 0; j < 9; j++){
 		temp = new cell(i, j);
 		grid.push(temp);
     }
@@ -12,7 +12,7 @@ function setup() {
 
 function draw() {
 	background(51);
-	for(var x = 0; x > 81; x++){
+	for(var x = 0; x < grid.length; x++){
 		grid[x].show();
 	}
 }
