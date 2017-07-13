@@ -1,7 +1,8 @@
 var grid = [];
-var temp;
+var temp, w;
 function setup() {
 	createCanvas(600, 600);
+	w = floor(600/9);
 	for(var i = 0; i < 9; i++){
     for(var j = 0; j < 9; j++){
 		temp = new cell(i, j);
@@ -22,8 +23,8 @@ this.i = i;
 this.j = j;
 this.show = function(){
 	stroke(255);
-	var x = this.i * 20;
- 	var y = this.j * 20;
+	var x = this.i * w;
+ 	var y = this.j * w;
     	line(x, y, x + w, y);
     	line(x, y + w, x, y);
     	line(x + w, y, x + w, y + w);
