@@ -1,8 +1,8 @@
 var grid = [];
 var temp, w;
 function setup() {
-	createCanvas(600, 600);
-	w = floor(600/9);
+	createCanvas(603, 603);
+	w = floor(603/9);
 	for(var i = 0; i < 9; i++){
     for(var j = 0; j < 9; j++){
 		temp = new cell(i, j);
