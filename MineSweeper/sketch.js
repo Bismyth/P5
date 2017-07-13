@@ -21,6 +21,7 @@ function cell(i, j){
 this.i = i;
 this.j = j;
 this.show = function(){
+	stroke(255);
 	var x = this.i * 20;
  	var y = this.j * 20;
     	line(x, y, x + w, y);
