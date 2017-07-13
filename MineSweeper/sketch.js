@@ -1,4 +1,4 @@
-var gird = [];
+var grid = [];
 var temp;
 function setup() {
 	createCanvas(600, 600);
