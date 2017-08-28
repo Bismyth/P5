@@ -18,7 +18,7 @@ function setup() {
 			grid[i][j] = (temp);
 		}
 	}
-	
+	ftc();
 	// for(var i = 0; i < 3; i++){
 		// for(var j = 0; j < 3; j++){
 			// for(var h = 0; h < 3; h++){
@@ -91,6 +91,8 @@ this.show = function(){
 
 function check(){
 	bCell = [];
+	testX = 0;
+	testY = 0;
 	for(var i = 0; i < 3; i++){
 		for(var j = 0; j < 3; j++){
 			for(var h = 0; h < 3; h++){
@@ -135,10 +137,39 @@ function check(){
 function ftc(){
 	for(var i =0; i < grid.length; i++){
 		for(var j =0; j < grid[i].length; j++){
-			if(j + 1 + i - 9 > 0){
-				grid[i][j].value = j + 1 + i - 9;
+			if(j > 5){
+				if(j*3 + 3 + i > 9){
+					if(j * 3 + 3 + i - 9 > 9){
+						if (j * 3 + 3 + i - 18 > 9) {
+							grid[i][j].value = j * 3 + 3 + i - 27;
+						} else {
+							grid[i][j].value = j * 3 + 3 + i - 18;
+						}
+					} else {
+						grid[i][j].value = j * 3 + 3 + i - 9;
+					}
+				} else {
+					grid[i][j].value = j * 3 + 3 + i;
+				}
+			} else if (j > 2) {
+				// if(j*3 + 3 + i > 18){
+					// grid[i][j].value = j * 3 + 3 + i - 18;
+				// } else 
+				if(j*3 + 2 + i > 9){
+					if(j * 3 + 2 + i - 9 > 9){
+						grid[i][j].value = j * 3 + 2 + i - 18;
+					} else {
+						grid[i][j].value = j * 3 + 2 + i - 9;
+					}
+				} else {
+					grid[i][j].value = j * 3 + 2 + i;
+				}
 			} else {
-				grid[i][j].value = j + 1 + i;
+				if(j * 3 + 1 + i > 9){
+					grid[i][j].value = j * 3 + 1 + i - 9;
+				} else {
+					grid[i][j].value = j * 3+ 1 + i;
+				}
 			}
 		}
 	}
