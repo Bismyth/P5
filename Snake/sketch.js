@@ -5,7 +5,6 @@ gov = false;
 
 function setup() {
 	createCanvas(cellSize*cells, cellSize*cells);
-	frameRate(10);
 	for(var x = 0; x < grid.length; x++){
 		grid[x] = new Array(cells);
 	}
