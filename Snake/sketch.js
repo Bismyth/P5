@@ -67,22 +67,11 @@ function snake(c){
 	this.dir = 0;
 	this.show = function(){
 		if(!gov){
-			if(this.dir == 0 && this.x+1 != cells){
-				this.x += 1;
-				this.position.push([this.x,this.y]);
-			}
-			if(this.dir == 1 && this.y+1 != cells){
-				this.y += 1
-				this.position.push([this.x,this.y]);
-			}
-			if(this.dir == 2 && this.x-1 != -1){
-				this.x -= 1;
-				this.position.push([this.x,this.y]);
-			}
-			if(this.dir == 3 && this.y-1 != -1){
-				this.y -= 1;
-				this.position.push([this.x,this.y]);
-			}
+			if(this.dir == 0 && this.x+1 != cells) this.x += 1;
+			if(this.dir == 1 && this.y+1 != cells) this.y += 1;
+			if(this.dir == 2 && this.x-1 != -1) this.x -= 1;
+			if(this.dir == 3 && this.y-1 != -1) this.y -= 1; 
+			this.position.push([this.x,this.y]);
 			if(this.position.length > this.length){
 				var temp = this.position.shift();
 				grid[temp[0]][temp[1]].colour = 51;
