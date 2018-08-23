@@ -16,6 +16,7 @@ function setup() {
 	}
 	player = new snake(1);
 	food();
+	frameRate(20);
 }
 
 function draw() {
@@ -88,9 +89,7 @@ function snake(c){
 				}
 				grid[this.position[x][0]][this.position[x][1]].colour = 255;
 			}
-		} else {
-			
-		}
+		} 
 	}
 }
 function food(){
