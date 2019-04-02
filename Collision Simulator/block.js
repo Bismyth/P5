@@ -1,13 +1,12 @@
 function Block(x,w,v,m) {
     this.x = x;
-    this.y = height - w - fr;
     this.w = w;
     this.v = v;
     this.m = m;
-    this.show = function () {
+    this.show = function (c) {
         fill(255);
         stroke(255);
-        rect(this.x,this.y,this.w,this.w);
+        rect(this.x,height-c-fr,c,c);
     }
     this.update = function() {
         this.x += this.v;
