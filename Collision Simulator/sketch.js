@@ -19,7 +19,7 @@ function setup() {
   countDiv = createDiv();
   digit = createSlider(1,9,n,1);
   digitDiv = createDiv();
-  itera = createSlider(1,9,7,1);
+  itera = createSlider(100,5000000,100000,100);
   iteraDiv = createDiv();
   sb = createButton('Start');
   sb.mousePressed(start);
@@ -31,7 +31,7 @@ function draw() {
   background(51);
   scene(fr,wl);
   n = digit.value();
-  iter = 10**itera.value();
+  iter = itera.value();
   s2 = 40*(n-1)+10;
   if(run){  
     if(!ended || finishup > 0 ){
@@ -53,7 +53,7 @@ function draw() {
   block2.show(s2);
   countDiv.html("Collisions:&nbsp"+ coll + "<br>Actual:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" + shower);
   digitDiv.html("Digits to calculate: " + n);
-  iteraDiv.html("Calculations per Cycle: " + iter + " (note that the higher this is the more lag it will cause");
+  iteraDiv.html("Calculations per Cycle: " + iter + " (note that the higher this is the more lag it will cause)");
 }
 
 function scene(f,w) {
@@ -65,6 +65,9 @@ function scene(f,w) {
 
 function start(){
   block2 = new Block(200+wl,s2,-1/iter,100**(n-1)); 
+  document.getElementsByTagName("input")[0].disabled = true;
+  document.getElementsByTagName("input")[1].disabled = true;
+  document.getElementsByTagName("button")[0].disabled = true;
   run = true;
 }
 
