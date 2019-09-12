@@ -19,7 +19,7 @@ function setup() {
   countDiv = createDiv();
   digit = createSlider(1,9,n,1);
   digitDiv = createDiv();
-  itera = createSlider(100,5000000,100000,100);
+  itera = createSlider(100,50000000,10000000,100);
   iteraDiv = createDiv();
   sb = createButton('Start');
   sb.mousePressed(start);
